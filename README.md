@@ -24,15 +24,21 @@ See yardoc
 
 ### Run test
 
+```
+bundle exec rake test
+```
+
 ### Release
+
+```
+bundle exec rake release
+```
 
 ### Generate yardoc
 
 ```
-./docs.sh
+bundle exec rake yard
 ```
-
-git commit && git push (to gh-pages branch)
 
 ## Contributing
 
