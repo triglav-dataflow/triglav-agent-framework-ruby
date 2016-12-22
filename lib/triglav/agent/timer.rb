@@ -32,7 +32,7 @@ module Triglav::Agent
       yield
       elapsed = Time.now - started
       if (timeout = (sec - elapsed).to_f) > 0
-        IO.select([@r], [], [], timeout)
+        IO.select([@r], [], [], timeout) if @w and @r
       end
     end
 
@@ -50,7 +50,9 @@ module Triglav::Agent
 
     def close
       @w.close rescue nil
+      @w = nil
       @r.close rescue nil
+      @r = nil
     end
 
     # # Hmm, Ctrl-C breaks condvar.wait before calling #stop unexpectedly
