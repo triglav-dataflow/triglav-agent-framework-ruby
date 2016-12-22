@@ -32,7 +32,11 @@ module Triglav::Agent
       yield
       elapsed = Time.now - started
       if (timeout = (sec - elapsed).to_f) > 0
-        IO.select([@r], [], [], timeout) if @w and @r
+        begin
+          IO.select([@r], [], [], timeout)
+        rescue IOError, Errno::EBADF
+          # these error may occur if @r is closed during IO.select. Ignore it
+        end
       end
     end
 
