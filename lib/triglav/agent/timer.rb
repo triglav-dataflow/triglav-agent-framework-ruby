@@ -4,19 +4,20 @@ module Triglav::Agent
   #     module Triglav::Agent
   #       module Worker
   #         def initialize
-  #           @timer = Timer.new
+  #           @interval = 60.0 # sec
   #         end
   #
   #         def run
-  #           interval = 60.0 # sec
+  #           @timer = Timer.new
+  #           @stop = false
   #           until @stop
-  #             @timer.wait(interval) { process }
+  #             @timer.wait(@interval) { process }
   #           end
   #         end
   #
   #         def stop
   #           @stop = true
-  #           @timer.signal
+  #           @timer.stop
   #         end
   #       end
   #     end
@@ -31,12 +32,23 @@ module Triglav::Agent
       elapsed = Time.now - started
       if (timeout = (sec - elapsed).to_f) > 0
         IO.select([@r], [], [], timeout)
-        @r.read_nonblock(0, nil, exception: false)
       end
     end
 
+    def stop
+      signal
+      close
+    end
+
+    private
+
     def signal
       @w.puts ' '
+    end
+
+    def close
+      @w.close rescue nil
+      @r.close rescue nil
     end
 
     # # Hmm, Ctrl-C breaks condvar.wait before calling #stop unexpectedly
