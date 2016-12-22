@@ -27,6 +27,7 @@ module Triglav::Agent
     end
 
     def wait(sec, &block)
+      return if @stop
       started = Time.now
       yield
       elapsed = Time.now - started
@@ -36,6 +37,7 @@ module Triglav::Agent
     end
 
     def stop
+      @stop = true
       signal
       close
     end
