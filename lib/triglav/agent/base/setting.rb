@@ -14,6 +14,7 @@ module Triglav::Agent
 
       DEFAULT_LOG = 'STDOUT'.freeze
       DEFAULT_LOG_LEVEL = 'info'.freeze
+      DEFAULT_TRIGLAV_ENV = 'development'.freeze
 
       def initialize(cli_options = {})
         @cli_options = cli_options
@@ -28,6 +29,10 @@ module Triglav::Agent
         @config = nil
         @logger.close rescue nil
         @logger = nil
+      end
+
+      def triglav_env
+        @triglav_env ||= ENV['TRIGLAV_ENV'] || DEFAULT_TRIGLAV_ENV
       end
 
       def config_file
@@ -83,7 +88,8 @@ module Triglav::Agent
           begin
             raw = File.read(config_file)
             erb = ERB.new(raw, nil, "-").tap {|_| _.filename = config_file }
-            HashUtil.deep_symbolize_keys(YAML.load(erb.result(binding)))
+            all = HashUtil.deep_symbolize_keys(YAML.load(erb.result(binding)))
+            all[triglav_env.to_sym]
           end
       end
 

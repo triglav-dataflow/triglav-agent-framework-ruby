@@ -1,17 +1,24 @@
-serverengine:
-triglav:
-  url: <%= ENV['TRIGLAV_URL'] %>
-  credential:
-    name: <%= ENV['TRIGLAV_USERNAME'] %>
-    password: <%= ENV['TRIGLAV_USERNAME'] %>
-    authenticator: local
-vertica:
-  interval: 60
-  connection_info:
-    /.*/:
-      host: <%= ENV['VERTICA_HOST'] %>
-      port: <%= ENV['VERTICA_PORT'] %>
-      database: <%= ENV['VERTICA_DATABASE'] %>
-      user: <%= ENV['VERTICA_USER'] %>
-      password: <%= ENV['VERTICA_PASSWORD'] %>
-      resource_pool: <%= ENV['VERTICA_RESOURCE_POOL'] %>
+defaults: &defaults
+  serverengine:
+  triglav:
+    url: <%= ENV['TRIGLAV_URL'] %>
+    credential:
+      name: <%= ENV['TRIGLAV_USERNAME'] %>
+      password: <%= ENV['TRIGLAV_USERNAME'] %>
+      authenticator: local
+  vertica:
+    watcher_interval: 60
+    connection_info:
+      "vertica://":
+        host: <%= ENV['VERTICA_HOST'] %>
+        port: <%= ENV['VERTICA_PORT'] %>
+        database: <%= ENV['VERTICA_DATABASE'] %>
+        user: <%= ENV['VERTICA_USER'] %>
+        password: <%= ENV['VERTICA_PASSWORD'] %>
+        resource_pool: <%= ENV['VERTICA_RESOURCE_POOL'] %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
