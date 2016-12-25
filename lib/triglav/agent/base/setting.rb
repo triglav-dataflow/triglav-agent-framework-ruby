@@ -40,11 +40,11 @@ module Triglav::Agent
       end
 
       def status_file
-        @cli_options[:status]
+        @status_file ||= @cli_options[:status] || (config[:triglav] || {})[:status_file] || 'status.yml'
       end
 
       def token_file
-        @cli_options[:token]
+        @token_file ||= @cli_options[:token] || (config[:triglav] || {})[:token_file] || 'token.yml'
       end
 
       def dotenv?

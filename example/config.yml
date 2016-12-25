@@ -1,6 +1,8 @@
 defaults: &defaults
   serverengine:
   triglav:
+    status_file: status.yml
+    token_file: token.yml
     url: <%= ENV['TRIGLAV_URL'] %>
     credential:
       name: <%= ENV['TRIGLAV_USERNAME'] %>

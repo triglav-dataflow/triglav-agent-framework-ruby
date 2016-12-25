@@ -23,8 +23,6 @@ module Triglav::Agent
       def default_opts
         {
           config: 'config.yml',
-          status: 'status.yml',
-          token: 'token.yml',
           dotenv: false,
           debug: false,
         }
@@ -44,10 +42,10 @@ module Triglav::Agent
         op.on('-c', '--config VALUE', "Config file (default: #{opts[:config]})") {|v|
           opts[:config] = v
         }
-        op.on('-s', '--status VALUE', "Status stroage file (default: #{opts[:status]})") {|v|
+        op.on('-s', '--status VALUE', "Status stroage file (default: status.yml)") {|v|
           opts[:status] = v
         }
-        op.on('-t', '--token VALUE', "Triglav access token storage file (default: #{opts[:token]})") {|v|
+        op.on('-t', '--token VALUE', "Triglav access token storage file (default: token.yml)") {|v|
           opts[:token] = v
         }
         op.on('--dotenv', "Load environment variables from .env file (default: #{opts[:dotenv]})") {|v|
