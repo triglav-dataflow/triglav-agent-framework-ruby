@@ -56,9 +56,15 @@ module Triglav::Agent
       end
 
       def logger
-        return @logger if @logger
-        opts = serverengine_logger_options
-        @logger = Logger.new(opts[:log], opts)
+        @logger ||= Logger.new(log, serverengine_logger_options)
+      end
+
+      def log_level
+        @cli_options[:log_level] || (config[:serverengine] ||{})[:log_level] || DEFAULT_LOG_LEVEL
+      end
+
+      def log
+        @cli_options[:log] || (config[:serverengine] ||{})[:log] || DEFAULT_LOG
       end
 
       def serverengine_options
@@ -68,9 +74,11 @@ module Triglav::Agent
         serverengine_options.keys.each do |k|
           serverengine_options.delete(k) if k.to_s.start_with?('log')
         end
-        serverengine_options[:logger] = logger
-        serverengine_options[:setting] = self
-        serverengine_options
+        serverengine_options.merge!({
+          logger: logger,
+          log_level: log_level,
+          setting: self,
+        })
       end
 
       def [](key)
@@ -94,12 +102,10 @@ module Triglav::Agent
       end
 
       def serverengine_logger_options
-        logger_options = config[:serverengine].dup || {}
-        logger_options[:log] ||= DEFAULT_LOG
-        logger_options[:log] = @cli_options[:log] if @cli_options[:log]
-        logger_options[:log_level] ||= DEFAULT_LOG_LEVEL
-        logger_options[:log_level] = @cli_options[:log_level] if @cli_options[:log_level]
-        logger_options
+        {
+          log: log,
+          log_level: log_level,
+        }
       end
     end
   end
