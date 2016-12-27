@@ -40,11 +40,11 @@ module Triglav::Agent
       end
 
       def status_file
-        @status_file ||= @cli_options[:status] || (config[:triglav] || {})[:status_file] || 'status.yml'
+        @status_file ||= @cli_options[:status] || config.dig(:triglav, :status_file) || 'status.yml'
       end
 
       def token_file
-        @token_file ||= @cli_options[:token] || (config[:triglav] || {})[:token_file] || 'token.yml'
+        @token_file ||= @cli_options[:token] || config.dig(:triglav, :token_file) || 'token.yml'
       end
 
       def dotenv?
@@ -60,11 +60,11 @@ module Triglav::Agent
       end
 
       def log_level
-        @cli_options[:log_level] || (config[:serverengine] ||{})[:log_level] || DEFAULT_LOG_LEVEL
+        @cli_options[:log_level] || config.dig(:serverengine, :log_level) || DEFAULT_LOG_LEVEL
       end
 
       def log
-        @cli_options[:log] || (config[:serverengine] ||{})[:log] || DEFAULT_LOG
+        @cli_options[:log] || config.dig(:serverengine, :log) || DEFAULT_LOG
       end
 
       def serverengine_options
