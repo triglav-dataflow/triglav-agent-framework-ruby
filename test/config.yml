@@ -1,0 +1,12 @@
+test:
+  serverengine:
+    log: '/dev/null'
+    log_level: 'debug'
+    log_rotate_age: 5
+    log_rotate_size: 10485760
+  triglav:
+    url: 'http://localhost:7800'
+    credential:
+      username: triglav_test
+      password: triglav_test
+      authenticator: local
