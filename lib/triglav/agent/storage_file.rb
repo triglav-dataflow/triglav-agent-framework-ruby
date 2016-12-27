@@ -37,6 +37,7 @@ module Triglav::Agent
         return yield(StorageFile.new(fp))
       ensure
         fp.flock(File::LOCK_UN)
+        fp.close rescue nil
       end
     end
 
