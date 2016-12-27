@@ -24,6 +24,7 @@ module Triglav::Agent
   class Timer
     def initialize
       @r, @w = IO.pipe
+      start
     end
 
     def wait(sec, &block)
@@ -40,23 +41,19 @@ module Triglav::Agent
       end
     end
 
+    def start
+      @stop = false
+    end
+
     def stop
       @stop = true
       signal
-      close
     end
 
     private
 
     def signal
       @w.puts ' '
-    end
-
-    def close
-      @w.close rescue nil
-      @w = nil
-      @r.close rescue nil
-      @r = nil
     end
 
     # # Hmm, Ctrl-C breaks condvar.wait before calling #stop unexpectedly
