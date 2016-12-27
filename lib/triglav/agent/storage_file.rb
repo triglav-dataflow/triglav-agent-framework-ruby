@@ -61,12 +61,53 @@ module Triglav::Agent
     def self.set(path, key, val)
       keys = Array(key)
       open(path) do |fp|
-        sub_params = params = fp.load
-        keys[0...-1].each do |k|
-          sub_params = (sub_params[k] ||= {})
-        end
-        sub_params[keys.last] = val
+        params = fp.load
+        HashUtil.setdig(params, keys, val)
         fp.dump(params)
+      end
+    end
+
+    # Set key to hold val if key does not exist
+    #
+    #     StorageFile.setnx($setting.status_file, 'foo', 'bar') # like h['foo'] = 'bar'
+    #     StorageFile.setnx($setting.status_file, ['a','b'], 'bar') # like h['a']['b'] = 'bar'
+    #
+    # @param [String] path
+    # @param [Object] key
+    # @param [Object] val
+    # @return [Boolean] true if set (not exist), false if not set (exists)
+    def self.setnx(path, key, val)
+      keys = Array(key)
+      open(path) do |fp|
+        params = fp.load
+        return false if params.dig(*keys)
+        HashUtil.setdig(params, keys, val)
+        fp.dump(params)
+        return true
+      end
+    end
+
+    # Set key to hold val if key does not exist and returns the holded value
+    #
+    # This is a kind of atomic short hand of
+    #
+    #     StorageFile.setnx($setting.status_file, 'foo', 'bar')
+    #     StorageFile.get($setting.status_file, 'foo')
+    #
+    # @param [String] path
+    # @param [Object] key
+    # @param [Object] val
+    # @return [Object] holded value
+    def self.getsetnx(path, key, val)
+      keys = Array(key)
+      open(path) do |fp|
+        params = fp.load
+        if curr = params.dig(*keys)
+          return curr
+        end
+        HashUtil.setdig(params, keys, val)
+        fp.dump(params)
+        return val
       end
     end
 
