@@ -33,6 +33,8 @@ module Triglav::Agent
         uri = URI.parse(triglav_url)
         config.scheme = uri.scheme
         config.host = "#{uri.host}:#{uri.port}"
+        config.timeout = timeout if timeout
+        config.debugging = debugging if debugging
       end
       @api_client = TriglavClient::ApiClient.new(config)
       initialize_current_token
@@ -151,6 +153,14 @@ module Triglav::Agent
 
     def authenticator
       $setting.dig(:triglav, :credential, :authenticator)
+    end
+
+    def timeout
+      $setting.dig(:triglav, :timeout)
+    end
+
+    def debugging
+      $setting.dig(:triglav, :debugging)
     end
 
     def token_file
