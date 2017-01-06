@@ -8,6 +8,7 @@ module Triglav
     #      config.cli_class = Triglav::Agent::Vertica::CLI
     #      config.setting_class = Triglav::Agent::Vertica::Setting
     #      config.worker_module = Triglav::Agent::Vertica::Worker
+    #      config.name = :vertica
     #    end
     #    Triglav::Agent::Configuration.cli_class.new.run
     class Configuration
@@ -27,6 +28,10 @@ module Triglav
         @cli_class ||= Triglav::Agent::Base::CLI
       end
 
+      def self.name
+        @name ||= 'agent'
+      end
+
       def self.worker_module=(worker_module)
         @worker_module = worker_module
       end
@@ -37,6 +42,10 @@ module Triglav
 
       def self.cli_class=(cli_class)
         @cli_class = cli_class
+      end
+
+      def self.name=(name)
+        @name = name
       end
     end
   end
