@@ -6,6 +6,7 @@ test:
     log_rotate_size: 10485760
   triglav:
     url: 'http://localhost:7800'
+    timeout: 1
     credential:
       username: triglav_test
       password: triglav_test
