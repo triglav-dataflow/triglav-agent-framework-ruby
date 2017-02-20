@@ -28,7 +28,8 @@ module Triglav::Agent
     class ConnectionError < Error; end
 
     # Initialize TriglavClient
-    def initialize
+    def initialize(opts = {})
+      @opts = opts || {}
       config = TriglavClient::Configuration.new do |config|
         uri = URI.parse(triglav_url)
         config.scheme = uri.scheme
@@ -115,11 +116,17 @@ module Triglav::Agent
     end
 
     def handle_auth_error(&block)
+      retries = 0
       begin
         yield
       rescue TriglavClient::ApiError => e
         if e.code == 0
-          raise ConnectionError.new("Could not connect to #{triglav_url}", e)
+          if retries < max_retries
+            sleep retry_interval
+            retries += 1
+            retry
+          end
+          raise ConnectionError.new("Could not connect to #{triglav_url} with #{retries} retries", e)
         elsif e.message == 'Unauthorized'.freeze
           raise AuthenticationError.new("Failed to authenticate on triglav API.".freeze, e)
         else
@@ -129,11 +136,17 @@ module Triglav::Agent
     end
 
     def handle_error(&block)
+      retries = 0
       begin
         yield
       rescue TriglavClient::ApiError => e
         if e.code == 0
-          raise ConnectionError.new("Could not connect to #{triglav_url}", e)
+          if retries < max_retries
+            sleep retry_interval
+            retries += 1
+            retry
+          end
+          raise ConnectionError.new("Could not connect to #{triglav_url} with #{retries} retries", e)
         elsif e.message == 'Unauthorized'.freeze
           authenticate
           retry
@@ -144,31 +157,39 @@ module Triglav::Agent
     end
 
     def triglav_url
-      $setting.dig(:triglav, :url)
+      @opts[:url] || $setting.dig(:triglav, :url)
     end
 
     def username
-      $setting.dig(:triglav, :credential, :username)
+      @opts.dig(:credential, :username) || $setting.dig(:triglav, :credential, :username)
     end
 
     def password
-      $setting.dig(:triglav, :credential, :password)
+      @opts.dig(:credential, :password) || $setting.dig(:triglav, :credential, :password)
     end
 
     def authenticator
-      $setting.dig(:triglav, :credential, :authenticator)
+      @opts.dig(:credential, :authenticator) || $setting.dig(:triglav, :credential, :authenticator)
     end
 
     def timeout
-      $setting.dig(:triglav, :timeout)
+      @opts[:timeout] || $setting.dig(:triglav, :timeout)
     end
 
     def debugging
-      $setting.dig(:triglav, :debugging)
+      @opts[:debugging] || $setting.dig(:triglav, :debugging)
+    end
+
+    def max_retries
+      @opts[:retries] || $setting.dig(:triglav, :retries) || 3
+    end
+
+    def retry_interval
+      @opts[:retry_interval] || $setting.dig(:triglav, :retry_interval) || 3 # second
     end
 
     def token_file
-      $setting.token_file
+      @opts[:token_file] || $setting.token_file
     end
   end
 end
