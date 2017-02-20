@@ -44,8 +44,8 @@ module Triglav::Agent
     # List resources required to be monitored
     #
     # @param [String] uri_prefix
-    # @return [Array] array of resources
-    # @see TriglavAgent::ResourceEachResponse
+    # @return [Array of TriglavClient::ResourceEachResponse] array of resources
+    # @see TriglavClient::ResourceEachResponse
     def list_aggregated_resources(uri_prefix)
       $logger.debug { "ApiClient#list_aggregated_resources(#{uri_prefix.inspect})" }
       resources_api = TriglavClient::ResourcesApi.new(@api_client)
@@ -54,12 +54,16 @@ module Triglav::Agent
 
     # Send messages
     #
-    # @param [Array] events array of event messages
-    # @see TriglavAgent::MessageRequest
+    # @param [Array of TriglavClient::MessageRequest] array of event messages
+    # @see TriglavClient::MessageRequest
     def send_messages(events)
       $logger.debug { "ApiClient#send_messages(#{events.inspect})" }
       messages_api = TriglavClient::MessagesApi.new(@api_client)
       handle_error { messages_api.send_messages(events) }
+    end
+
+    def authorized?
+      @current_token.has_key?(:access_token)
     end
 
     private
