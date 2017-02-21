@@ -30,7 +30,7 @@ module Triglav::Agent
 
     private
     def format_datetime(time)
-      time.strftime("%Y-%m-%dT%H:%m:%S.%6N%:z")
+      time.strftime("%Y-%m-%dT%H:%M:%S.%6N%:z")
     end
 
     def format_pid
