@@ -20,6 +20,10 @@ $ bundle
 
 See yardoc
 
+## Examples
+
+See [triglav-agent-vertica](https://github.com/triglav-workflow/triglav-agent-vertica) or [triglav-agent-hdfs](https://github.com/triglav-workflow/triglav-agent-hdfs)
+
 ## Development
 
 ### Run test
