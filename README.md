@@ -18,7 +18,7 @@ $ bundle
 
 ## Usage
 
-See yardoc
+See [yardoc](https://triglav-dataflow.github.io/triglav-agent-framework-ruby/)
 
 ## Examples
 
