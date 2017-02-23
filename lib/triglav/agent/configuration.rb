@@ -5,7 +5,7 @@ module Triglav
     #    require 'triglav/agent/configuration'
     #    require 'triglav/agent/vertica/worker'
     #    Triglav::Agent::Configuration.configure do |config|
-    #      config.name = :vertica
+    #      config.name = :vertica # default: :agent
     #      config.cli_class = Triglav::Agent::Vertica::CLI
     #      config.setting_class = Triglav::Agent::Vertica::Setting
     #      config.worker_module = Triglav::Agent::Vertica::Worker
@@ -44,7 +44,7 @@ module Triglav
       end
 
       def self.name
-        @name ||= 'agent'
+        @name ||= :agent
       end
 
       def self.worker_module=(worker_module)
