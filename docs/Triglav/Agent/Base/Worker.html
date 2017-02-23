@@ -88,7 +88,13 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Just a skelton of ServerEngine worker</p>
+<p>Triglav agent worker module for Serverengine.</p>
+
+<p>You usually do not need to customize this module, but if you want to
+implement your original, configure</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>Triglav</span><span class='op'>::</span><span class='const'>Agent</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_worker_module'>worker_module</span>
+</code></pre>
 
 
   </div>
@@ -128,7 +134,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>serverengine interface.</p>
+</div></span>
   
 </li>
 
@@ -172,7 +180,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>serverengine interface.</p>
+</div></span>
   
 </li>
 
@@ -181,6 +191,30 @@
   <span class="summary_signature">
     
       <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>serverengine interface.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start-instance_method" title="#start (instance method)">#<strong>start</strong>  &#x21d2; Object </a>
     
 
     
@@ -203,6 +237,30 @@
   <span class="summary_signature">
     
       <a href="#stop-instance_method" title="#stop (instance method)">#<strong>stop</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>serverengine interface.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stopped%3F-instance_method" title="#stopped? (instance method)">#<strong>stopped?</strong>  &#x21d2; Boolean </a>
     
 
     
@@ -239,18 +297,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>serverengine interface</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-7
-8
-9</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
   <span class='ivar'>@timer</span> <span class='op'>=</span> <span class='const'>Timer</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -269,43 +338,53 @@
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Raises:</p>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>NotImplementedError</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-27
-28
-29</pre>
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_process'>process</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span>
+  <span class='id identifier rubyid_started'>started</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
+  <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Start Worker#process worker_id:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_id'>worker_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_total_count'>total_count</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='id identifier rubyid_total_success_count'>total_success_count</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='id identifier rubyid_resource_uri_prefixes'>resource_uri_prefixes</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_resource_uri_prefix'>resource_uri_prefix</span><span class='op'>|</span>
+    <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_stopped?'>stopped?</span>
+    <span class='id identifier rubyid_processor'>processor</span> <span class='op'>=</span> <span class='id identifier rubyid_processor_class'>processor_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_resource_uri_prefix'>resource_uri_prefix</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_total_count'>total_count</span> <span class='op'>+=</span> <span class='id identifier rubyid_processor'>processor</span><span class='period'>.</span><span class='id identifier rubyid_total_count'>total_count</span>
+    <span class='id identifier rubyid_total_success_count'>total_success_count</span> <span class='op'>+=</span> <span class='id identifier rubyid_processor'>processor</span><span class='period'>.</span><span class='id identifier rubyid_process'>process</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_elapsed'>elapsed</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span> <span class='op'>-</span> <span class='id identifier rubyid_started'>started</span>
+  <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Finish Worker#process worker_id:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_id'>worker_id</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span> \
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>success_count/total_count:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_total_success_count'>total_success_count</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_total_count'>total_count</span><span class='embexpr_end'>}</span><span class='tstring_content'> elapsed:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_elapsed'>elapsed</span><span class='period'>.</span><span class='id identifier rubyid_to_f'>to_f</span><span class='embexpr_end'>}</span><span class='tstring_content'>sec</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -321,20 +400,33 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>serverengine interface</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13</pre>
+18
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reload'>reload</span>
+  <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Worker#reload worker_id:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_id'>worker_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='gvar'>$setting</span><span class='period'>.</span><span class='id identifier rubyid_reload'>reload</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -351,27 +443,80 @@
   
 
   
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>serverengine interface</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span>
+  <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Worker#run worker_id:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_id'>worker_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_start'>start</span>
+  <span class='kw'>until</span> <span class='ivar'>@stop</span>
+    <span class='ivar'>@timer</span><span class='period'>.</span><span class='id identifier rubyid_wait'>wait</span><span class='lparen'>(</span><span class='id identifier rubyid_monitor_interval'>monitor_interval</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_process'>process</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>rescue</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='comment'># ServerEngine.dump_uncaught_error does not tell me e.class
+</span>  <span class='id identifier rubyid_log_error'>log_error</span><span class='lparen'>(</span><span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_e'>e</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="start-instance_method">
+  
+    #<strong>start</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
 </h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-15
-16
-17
-18
-19
-20</pre>
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 56</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span>
-  <span class='id identifier rubyid_interval'>interval</span> <span class='op'>=</span> <span class='int'>60</span>
-  <span class='kw'>until</span> <span class='ivar'>@stop</span>
-    <span class='ivar'>@timer</span><span class='period'>.</span><span class='id identifier rubyid_wait'>wait</span><span class='lparen'>(</span><span class='id identifier rubyid_interval'>interval</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_process'>process</span> <span class='rbrace'>}</span>
-  <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_start'>start</span>
+  <span class='ivar'>@timer</span><span class='period'>.</span><span class='id identifier rubyid_start'>start</span>
+  <span class='ivar'>@stop</span> <span class='op'>=</span> <span class='kw'>false</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -387,23 +532,88 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>serverengine interface</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-22
-23
-24
-25</pre>
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stop'>stop</span>
+  <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_info'>info</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Worker#stop worker_id:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_worker_id'>worker_id</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='ivar'>@stop</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='ivar'>@timer</span><span class='period'>.</span><span class='id identifier rubyid_signal'>signal</span>
+  <span class='ivar'>@timer</span><span class='period'>.</span><span class='id identifier rubyid_stop'>stop</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stopped?-instance_method">
+  
+    #<strong>stopped?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/worker.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_stopped?'>stopped?</span>
+  <span class='ivar'>@stop</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -415,7 +625,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 22 14:19:36 2016 by
+  Generated on Thu Feb 23 23:20:33 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.2).
 </div>

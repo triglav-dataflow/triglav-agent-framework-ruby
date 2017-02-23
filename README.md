@@ -22,7 +22,12 @@ See [yardoc](https://triglav-dataflow.github.io/triglav-agent-framework-ruby/)
 
 ## Examples
 
-See [triglav-agent-vertica](https://github.com/triglav-workflow/triglav-agent-vertica) or [triglav-agent-hdfs](https://github.com/triglav-workflow/triglav-agent-hdfs)
+See [triglav-agent-vertica](https://github.com/triglav-workflow/triglav-agent-vertica) or [triglav-agent-hdfs](https://github.com/triglav-workflow/triglav-agent-hdfs).
+
+Basically what you have to implement are following classes:
+
+* `Connection`: make a connection to your storage
+* `Monitor`: monitor your storage and send messages to triglav
 
 ## Development
 

@@ -2,6 +2,12 @@ require 'triglav/agent/timer'
 
 module Triglav::Agent
   module Base
+    # Triglav agent worker module for Serverengine.
+    #
+    # You usually do not need to customize this module, but if you want to
+    # implement your original, configure
+    #
+    #     Triglav::Agent::Configuration.worker_module
     module Worker
       # serverengine interface
       def initialize

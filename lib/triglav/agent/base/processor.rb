@@ -3,6 +3,14 @@ require 'connection_pool'
 
 module Triglav::Agent
   module Base
+    # Triglav agent processor class.
+    #
+    # An instance is created for a `resource_uri_prefix`.
+    #
+    # You usually do not need to customize this class, but if you want to
+    # implement your original, configure
+    #
+    #     Triglav::Agent::Configuration.processor_class
     class Processor
       attr_reader :worker, :resource_uri_prefix
 

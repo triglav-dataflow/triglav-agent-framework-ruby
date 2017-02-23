@@ -1,7 +1,20 @@
 module Triglav::Agent
   module Base
-    # Just a skelton
-    # An instance is created per a resource
+    # An abstract class of Monitor.
+    #
+    # Monitor your storage and send messages to triglav.
+    #
+    # You have to implement following methods:
+    #
+    # * initialize
+    # * process
+    #
+    # An instance is created per a `resource`.
+    # Connection is shared among same `resource_uri_prefix`.
+    #
+    # Note that multiple instances would be created,
+    # one instance for one parallel thread basically, and
+    # `#process` is ran concurrently.
     class Monitor
       # @param [Triglav::Agent::Base::Connection] connection
       # @param [TriglavClient::ResourceResponse] resource
