@@ -77,19 +77,39 @@
 
 <h2 id="label-Usage">Usage</h2>
 
-<p>See yardoc</p>
+<p>See <a
+href="https://triglav-dataflow.github.io/triglav-agent-framework-ruby/">yardoc</a></p>
+
+<h2 id="label-Examples">Examples</h2>
+
+<p>See <a
+href="https://github.com/triglav-workflow/triglav-agent-vertica">triglav-agent-vertica</a>
+or <a
+href="https://github.com/triglav-workflow/triglav-agent-hdfs">triglav-agent-hdfs</a>.</p>
+
+<p>Basically what you have to implement are following classes:</p>
+<ul><li>
+<p><code>Connection</code>: make a connection to your storage</p>
+</li><li>
+<p><code>Monitor</code>: monitor your storage and send messages to triglav</p>
+</li></ul>
 
 <h2 id="label-Development">Development</h2>
 
 <h3 id="label-Run+test">Run test</h3>
 
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_test'>test</span>
+</code></pre>
+
 <h3 id="label-Release">Release</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_release'>release</span>
+</code></pre>
 
 <h3 id="label-Generate+yardoc">Generate yardoc</h3>
 
-<pre class="code ruby"><code class="ruby">./docs.sh</code></pre>
-
-<p>git commit &amp;&amp; git push (to gh-pages branch)</p>
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rake'>rake</span> <span class='id identifier rubyid_yard'>yard</span>
+</code></pre>
 
 <h2 id="label-Contributing">Contributing</h2>
 
@@ -107,7 +127,7 @@ href="http://opensource.org/licenses/MIT">MIT License</a>.</p>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Dec 22 14:19:36 2016 by
+  Generated on Thu Feb 23 23:20:33 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.2).
 </div>

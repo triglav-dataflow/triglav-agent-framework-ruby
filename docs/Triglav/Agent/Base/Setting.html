@@ -129,6 +129,11 @@ override this class and configure with Configuration#setting_class=</p>
       </dt>
       <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>info</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
     
+      <dt id="DEFAULT_APP_ENV-constant" class="">DEFAULT_APP_ENV =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>development</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
   </dl>
 
 
@@ -183,6 +188,28 @@ override this class and configure with Configuration#setting_class=</p>
   <span class="summary_signature">
     
       <a href="#%5B%5D-instance_method" title="#[] (instance method)">#<strong>[]</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#app_env-instance_method" title="#app_env (instance method)">#<strong>app_env</strong>  &#x21d2; Object </a>
     
 
     
@@ -311,6 +338,50 @@ override this class and configure with Configuration#setting_class=</p>
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of Setting.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log-instance_method" title="#log (instance method)">#<strong>log</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log_level-instance_method" title="#log_level (instance method)">#<strong>log_level</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -457,16 +528,16 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-18
 19
 20
 21
 22
 23
-24</pre>
+24
+25</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 19</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_cli_options'>cli_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@cli_options</span> <span class='op'>=</span> <span class='id identifier rubyid_cli_options'>cli_options</span>
@@ -550,15 +621,45 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-71
-72
-73</pre>
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="app_env-instance_method">
+  
+    #<strong>app_env</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_app_env'>app_env</span>
+  <span class='ivar'>@app_env</span> <span class='op'>||=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>APP_ENV</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='const'>DEFAULT_APP_ENV</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -580,12 +681,12 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-33
-34
-35</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_config_file'>config_file</span>
   <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
@@ -632,12 +733,12 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_debug?'>debug?</span>
   <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:debug</span><span class='rbracket'>]</span>
@@ -662,12 +763,12 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-75
-76
-77</pre>
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
@@ -714,15 +815,75 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-45
-46
-47</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dotenv?'>dotenv?</span>
   <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:dotenv</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="log-instance_method">
+  
+    #<strong>log</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_log'>log</span>
+  <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:log</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:serverengine</span><span class='comma'>,</span> <span class='symbol'>:log</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>DEFAULT_LOG</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="log_level-instance_method">
+  
+    #<strong>log_level</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_log_level'>log_level</span>
+  <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:log_level</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:serverengine</span><span class='comma'>,</span> <span class='symbol'>:log_level</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>DEFAULT_LOG_LEVEL</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -744,19 +905,15 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-53
-54
-55
-56
-57</pre>
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_logger'>logger</span>
-  <span class='kw'>return</span> <span class='ivar'>@logger</span> <span class='kw'>if</span> <span class='ivar'>@logger</span>
-  <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_serverengine_logger_options'>serverengine_logger_options</span>
-  <span class='ivar'>@logger</span> <span class='op'>=</span> <span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:log</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+  <span class='ivar'>@logger</span> <span class='op'>||=</span> <span class='const'>Logger</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_log'>log</span><span class='comma'>,</span> <span class='id identifier rubyid_serverengine_logger_options'>serverengine_logger_options</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -778,15 +935,15 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-26
 27
 28
 29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reload'>reload</span>
   <span class='const'>Dotenv</span><span class='period'>.</span><span class='id identifier rubyid_overload'>overload</span> <span class='kw'>if</span> <span class='id identifier rubyid_dotenv?'>dotenv?</span>
@@ -814,20 +971,22 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69</pre>
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serverengine_options'>serverengine_options</span>
   <span class='id identifier rubyid_serverengine_options'>serverengine_options</span> <span class='op'>=</span> <span class='id identifier rubyid_config'>config</span><span class='lbracket'>[</span><span class='symbol'>:serverengine</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -836,9 +995,11 @@ override this class and configure with Configuration#setting_class=</p>
 </span>  <span class='id identifier rubyid_serverengine_options'>serverengine_options</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='op'>|</span>
     <span class='id identifier rubyid_serverengine_options'>serverengine_options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>log</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_serverengine_options'>serverengine_options</span><span class='lbracket'>[</span><span class='symbol'>:logger</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_logger'>logger</span>
-  <span class='id identifier rubyid_serverengine_options'>serverengine_options</span><span class='lbracket'>[</span><span class='symbol'>:setting</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>self</span>
-  <span class='id identifier rubyid_serverengine_options'>serverengine_options</span>
+  <span class='id identifier rubyid_serverengine_options'>serverengine_options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+    <span class='label'>logger:</span> <span class='id identifier rubyid_logger'>logger</span><span class='comma'>,</span>
+    <span class='label'>log_level:</span> <span class='id identifier rubyid_log_level'>log_level</span><span class='comma'>,</span>
+    <span class='label'>setting:</span> <span class='kw'>self</span><span class='comma'>,</span>
+  <span class='rbrace'>}</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -860,15 +1021,15 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-37
-38
-39</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_status_file'>status_file</span>
-  <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span>
+  <span class='ivar'>@status_file</span> <span class='op'>||=</span> <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:triglav</span><span class='comma'>,</span> <span class='symbol'>:status_file</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status.yml</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -890,15 +1051,15 @@ override this class and configure with Configuration#setting_class=</p>
       <pre class="lines">
 
 
-41
-42
-43</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/base/setting.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_token_file'>token_file</span>
-  <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span>
+  <span class='ivar'>@token_file</span> <span class='op'>||=</span> <span class='ivar'>@cli_options</span><span class='lbracket'>[</span><span class='symbol'>:token</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:triglav</span><span class='comma'>,</span> <span class='symbol'>:token_file</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>token.yml</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -910,7 +1071,7 @@ override this class and configure with Configuration#setting_class=</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 22 14:19:37 2016 by
+  Generated on Thu Feb 23 23:20:33 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.2).
 </div>

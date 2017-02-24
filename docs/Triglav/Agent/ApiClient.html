@@ -154,7 +154,29 @@ $setting.token_file.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; ApiClient </a>
+      <a href="#authorized%3F-instance_method" title="#authorized? (instance method)">#<strong>authorized?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(opts = {})  &#x21d2; ApiClient </a>
     
 
     
@@ -180,7 +202,7 @@ $setting.token_file.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#list_aggregated_resources-instance_method" title="#list_aggregated_resources (instance method)">#<strong>list_aggregated_resources</strong>(uri_prefix)  &#x21d2; Array </a>
+      <a href="#list_aggregated_resources-instance_method" title="#list_aggregated_resources (instance method)">#<strong>list_aggregated_resources</strong>(uri_prefix)  &#x21d2; Array of TriglavClient::ResourceEachResponse </a>
     
 
     
@@ -234,7 +256,7 @@ $setting.token_file.</p>
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Triglav::Agent::ApiClient (class)">ApiClient</a></span></tt> 
+    #<strong>initialize</strong>(opts = {})  &#x21d2; <tt><span class='object_link'><a href="" title="Triglav::Agent::ApiClient (class)">ApiClient</a></span></tt> 
   
 
   
@@ -266,16 +288,22 @@ $setting.token_file.</p>
 37
 38
 39
-40</pre>
+40
+41
+42
+43</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/triglav/agent/api_client.rb', line 31</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='ivar'>@opts</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id identifier rubyid_config'>config</span> <span class='op'>=</span> <span class='const'>TriglavClient</span><span class='op'>::</span><span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
     <span class='id identifier rubyid_uri'>uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_triglav_url'>triglav_url</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span>
     <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_timeout'>timeout</span> <span class='op'>=</span> <span class='id identifier rubyid_timeout'>timeout</span> <span class='kw'>if</span> <span class='id identifier rubyid_timeout'>timeout</span>
+    <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_debugging'>debugging</span> <span class='op'>=</span> <span class='id identifier rubyid_debugging'>debugging</span> <span class='kw'>if</span> <span class='id identifier rubyid_debugging'>debugging</span>
   <span class='kw'>end</span>
   <span class='ivar'>@api_client</span> <span class='op'>=</span> <span class='const'>TriglavClient</span><span class='op'>::</span><span class='const'>ApiClient</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_config'>config</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_initialize_current_token'>initialize_current_token</span>
@@ -294,9 +322,61 @@ $setting.token_file.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="list_aggregated_resources-instance_method">
+  <h3 class="signature first" id="authorized?-instance_method">
   
-    #<strong>list_aggregated_resources</strong>(uri_prefix)  &#x21d2; <tt>Array</tt> 
+    #<strong>authorized?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/api_client.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_authorized?'>authorized?</span>
+  <span class='ivar'>@current_token</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='symbol'>:access_token</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="list_aggregated_resources-instance_method">
+  
+    #<strong>list_aggregated_resources</strong>(uri_prefix)  &#x21d2; <tt>Array of TriglavClient::ResourceEachResponse</tt> 
   
 
   
@@ -333,7 +413,7 @@ $setting.token_file.</p>
     <li>
       
       
-        <span class='type'>(<tt>Array</tt>)</span>
+        <span class='type'>(<tt>Array of TriglavClient::ResourceEachResponse</tt>)</span>
       
       
       
@@ -349,7 +429,7 @@ $setting.token_file.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li>TriglavAgent::ResourceEachResponse</li>
+      <li>TriglavClient::ResourceEachResponse</li>
     
   </ul>
 
@@ -359,14 +439,14 @@ $setting.token_file.</p>
       <pre class="lines">
 
 
-47
-48
-49
 50
-51</pre>
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/api_client.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/api_client.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_list_aggregated_resources'>list_aggregated_resources</span><span class='lparen'>(</span><span class='id identifier rubyid_uri_prefix'>uri_prefix</span><span class='rparen'>)</span>
   <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ApiClient#list_aggregated_resources(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri_prefix'>uri_prefix</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
@@ -401,16 +481,16 @@ $setting.token_file.</p>
   
     <li>
       
-        <span class='name'>events</span>
+        <span class='name'>array</span>
       
       
-        <span class='type'>(<tt>Array</tt>)</span>
+        <span class='type'>(<tt>Array of TriglavClient::MessageRequest</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>array of event messages</p>
+<p>of event messages</p>
 </div>
       
     </li>
@@ -421,7 +501,7 @@ $setting.token_file.</p>
   <p class="tag_title">See Also:</p>
   <ul class="see">
     
-      <li>TriglavAgent::MessageRequest</li>
+      <li>TriglavClient::MessageRequest</li>
     
   </ul>
 
@@ -431,14 +511,14 @@ $setting.token_file.</p>
       <pre class="lines">
 
 
-57
-58
-59
 60
-61</pre>
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/api_client.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/api_client.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_messages'>send_messages</span><span class='lparen'>(</span><span class='id identifier rubyid_events'>events</span><span class='rparen'>)</span>
   <span class='gvar'>$logger</span><span class='period'>.</span><span class='id identifier rubyid_debug'>debug</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ApiClient#send_messages(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_events'>events</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
@@ -455,7 +535,7 @@ $setting.token_file.</p>
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 22 14:19:37 2016 by
+  Generated on Thu Feb 23 23:20:33 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.2).
 </div>
