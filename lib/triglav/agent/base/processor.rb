@@ -74,7 +74,7 @@ module Triglav::Agent
 
       def after_process
         @connection_pool.shutdown {|conn| conn.close rescue nil }
-        @api_client_pool.shutdown {|conn| conn.clsoe rescue nil }
+        @api_client_pool.shutdown {|conn| conn.close rescue nil }
       end
 
       def connection_class
