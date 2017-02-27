@@ -8,16 +8,21 @@ module Triglav::Agent
     # You have to implement following methods:
     #
     # * initialize
+    # * close
     #
     # An instance is created for each `resource_uri_prefix`, that is,
     # shared among resources with of same `resource_uri_prefix`.
     #
-    # Note that multiple connections would be created,
-    # one connection for one parallel thread basically.
+    # Note that multiple connection instances would be created
+    # when multiple parallel threads are created in Processor class.
     class Connection
       # @param [Hash] connection_info
       def initialize(connection_info)
         raise NotImplementedError
+      end
+
+      # close the connection
+      def close
       end
     end
   end

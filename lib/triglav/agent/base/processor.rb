@@ -17,13 +17,6 @@ module Triglav::Agent
       def initialize(worker, resource_uri_prefix)
         @worker = worker
         @resource_uri_prefix = resource_uri_prefix
-        @connection_pool = ConnectionPool.new(connection_pool_opts) {
-          connection_class.new(get_connection_info(resource_uri_prefix))
-        }
-        @api_client_pool = ConnectionPool.new(connection_pool_opts) {
-          ApiClient.new # renew connection
-        }
-        @mutex = Mutex.new
       end
 
       def self.max_consecuitive_error_count
@@ -31,6 +24,7 @@ module Triglav::Agent
       end
 
       def process
+        before_process
         success_count = 0
         consecutive_error_count = 0
         Parallel.each(resources, parallel_opts) do |resource|
@@ -58,6 +52,8 @@ module Triglav::Agent
           end
         end
         success_count
+      ensure
+        after_process
       end
 
       def total_count
@@ -65,6 +61,21 @@ module Triglav::Agent
       end
 
       private
+
+      def before_process
+        @connection_pool = ConnectionPool.new(connection_pool_opts) {
+          connection_class.new(get_connection_info(resource_uri_prefix))
+        }
+        @api_client_pool = ConnectionPool.new(connection_pool_opts) {
+          ApiClient.new # renew connection
+        }
+        @mutex = Mutex.new
+      end
+
+      def after_process
+        @connection_pool.shutdown {|conn| conn.close rescue nil }
+        @api_client_pool.shutdown {|conn| conn.clsoe rescue nil }
+      end
 
       def connection_class
         Configuration.connection_class

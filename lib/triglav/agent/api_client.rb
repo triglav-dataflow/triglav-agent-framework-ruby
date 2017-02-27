@@ -42,6 +42,10 @@ module Triglav::Agent
       authenticate
     end
 
+    def close
+      # typhoeus makes a new connection and disconnects it on each request
+    end
+
     # List resources required to be monitored
     #
     # @param [String] uri_prefix
