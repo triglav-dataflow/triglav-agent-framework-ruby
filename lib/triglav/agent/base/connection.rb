@@ -23,6 +23,7 @@ module Triglav::Agent
 
       # close the connection
       def close
+        raise NotImplementedError
       end
     end
   end
