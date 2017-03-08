@@ -34,8 +34,13 @@ module Triglav::Agent
         uri = URI.parse(triglav_url)
         config.scheme = uri.scheme
         config.host = "#{uri.host}:#{uri.port}"
-        config.timeout = timeout if timeout
-        config.debugging = debugging if debugging
+        config.timeout = timeout unless timeout.nil?
+        config.debugging = debugging unless debugging.nil?
+        config.verify_ssl = verify_ssl unless verify_ssl.nil?
+        config.verify_ssl_host = verify_ssl_host unless verify_ssl_host.nil?
+        config.ssl_ca_cert = ssl_ca_cert unless ssl_ca_cert.nil?
+        config.cert_file = cert_file unless cert_file.nil?
+        config.key_file = key_file unless key_file.nil?
       end
       @api_client = TriglavClient::ApiClient.new(config)
       initialize_current_token
@@ -176,12 +181,64 @@ module Triglav::Agent
       @opts.dig(:credential, :authenticator) || $setting.dig(:triglav, :credential, :authenticator)
     end
 
+    # Set this to enable/disable debugging. When enabled (set to true), HTTP request/response
+    # details will be logged with `logger.debug` (see the `logger` attribute).
+    # Default to false.
+    #
+    # @return [true, false]
+    def debugging
+      @opts.has_key?(:debugging) ? @opts[:debugging] : $setting.dig(:triglav, :debugging)
+    end
+
+    # The time limit for HTTP request in seconds.
+    # Default to 0 (never times out).
     def timeout
       @opts[:timeout] || $setting.dig(:triglav, :timeout)
     end
 
-    def debugging
-      @opts[:debugging] || $setting.dig(:triglav, :debugging)
+    ### TLS/SSL setting
+    # Set this to false to skip verifying SSL certificate when calling API from https server.
+    # Default to true.
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    # @return [true, false]
+    def verify_ssl
+      @opts.has_key?(:verify_ssl) ? @opts[:verify_ssl] : $setting.dig(:triglav, :verify_ssl)
+    end
+
+    ### TLS/SSL setting
+    # Set this to false to skip verifying SSL host name
+    # Default to true.
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    # @return [true, false]
+    def verify_ssl_host
+      @opts.has_key?(:verify_ssl_host) ? @opts[:verify_ssl_host] : $setting.dig(:triglav, :verify_ssl_host)
+    end
+
+    ### TLS/SSL setting
+    # Set this to customize the certificate file to verify the peer.
+    #
+    # @return [String] the path to the certificate file
+    #
+    # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
+    # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
+    def ssl_ca_cert
+      @opts[:ssl_ca_cert] || $setting.dig(:triglav, :ssl_ca_cert)
+    end
+
+    ### TLS/SSL setting
+    # Client certificate file (for client certificate)
+    def cert_file
+      @opts[:cert_file] || $setting.dig(:triglav, :cert_file)
+    end
+
+    ### TLS/SSL setting
+    # Client private key file (for client certificate)
+    def key_file
+      @opts[:key_file] || $setting.dig(:triglav, :key_file)
     end
 
     def max_retries
