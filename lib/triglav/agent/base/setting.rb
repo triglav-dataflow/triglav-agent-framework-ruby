@@ -7,8 +7,10 @@ module Triglav::Agent
   module Base
     # A base class represents settings coming from config.yml and cli options
     #
-    # This base class usually should be enough for agent plugins, but
-    # you can override this class and configure with Configuration#setting_class=
+    # You usually do not need to customize this class, but if you want to
+    # implement your original, configure
+    #
+    #     Triglav::Agent::Configuration.setting_class =
     class Setting
       attr_reader :cli_options
 

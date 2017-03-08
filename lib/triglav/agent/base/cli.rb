@@ -7,8 +7,10 @@ module Triglav::Agent
   module Base
     # A base class for cli option parser
     #
-    # This base class usually should be enough for agent plugins, but
-    # you can override this class and configure with Configuration#cli_classe=
+    # You usually do not need to customize this class, but if you want to
+    # implement your original, configure
+    #
+    #     Triglav::Agent::Configuration.cli_class =
     class CLI
       def run
         opts, _ = parse_options(ARGV)
