@@ -105,19 +105,19 @@ module Triglav::Agent
       end
 
       def parallel_size
-        $setting.dig(name, :parallel, :size) || 1
+        $setting.dig(name, :parallel_size) || 1
       end
 
       def parallel_type
-        $setting.dig(name, :parallel, :type) || 'thread'
+        $setting.dig(name, :parallel_type) || 'thread'
       end
 
       def connection_pool_size
-        $setting.dig(name, :connection_pool, :size) || parallel_size
+        $setting.dig(name, :connection_pool_size) || parallel_size
       end
 
       def connection_pool_timeout
-        $setting.dig(name, :connection_pool, :timeout) || 60
+        $setting.dig(name, :connection_pool_timeout) || 60
       end
 
       def get_connection_info(resource_uri_prefix)
