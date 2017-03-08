@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Triglav Team"]
   spec.email         = ["triglav_admin_my@dena.jp"]
 
-  spec.summary       = %q{Agent framework of triglav, data-driven workflow tool.}
-  spec.description   = %q{Agent framework of triglav, data-driven workflow tool.}
+  spec.summary       = %q{Agent framework for triglav, data-driven workflow tool.}
+  spec.description   = %q{Agent framework for triglav, data-driven workflow tool.}
   spec.homepage      = "https://github.com/triglav-dataflow/triglav-agent-framework-ruby"
   spec.license       = "MIT"
 
