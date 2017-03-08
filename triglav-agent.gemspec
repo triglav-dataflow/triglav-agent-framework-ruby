@@ -6,8 +6,8 @@ require 'triglav/agent/version'
 Gem::Specification.new do |spec|
   spec.name          = "triglav-agent"
   spec.version       = Triglav::Agent::VERSION
-  spec.authors       = ["Naotoshi Seo"]
-  spec.email         = ["sonots@gmail.com"]
+  spec.authors       = ["Triglav Team"]
+  spec.email         = ["triglav_admin_my@dena.jp"]
 
   spec.summary       = %q{Framework of Triglav Agent in Ruby.}
   spec.description   = %q{Framework of Triglav Agent in Ruby.}
