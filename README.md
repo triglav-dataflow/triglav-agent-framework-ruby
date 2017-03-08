@@ -46,7 +46,7 @@ bundle exec rake release
 ### Generate yardoc
 
 ```
-bundle exec rake yard
+bundle exec yard
 ```
 
 ## Contributing
