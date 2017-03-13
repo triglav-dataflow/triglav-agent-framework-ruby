@@ -9,6 +9,7 @@ require 'triglav/agent/error'
 require 'triglav/agent/hash_util'
 require 'triglav/agent/logger'
 require 'triglav/agent/storage_file'
+require 'triglav/agent/status'
 require 'triglav/agent/timer'
 require 'triglav/agent/version'
 

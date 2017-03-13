@@ -1,4 +1,5 @@
 require 'triglav/agent/timer'
+require 'triglav/agent/status'
 
 module Triglav::Agent
   module Base
@@ -18,6 +19,7 @@ module Triglav::Agent
       def reload
         $logger.info { "Worker#reload worker_id:#{worker_id}" }
         $setting.reload
+        Triglav::Agent::Status.select_resource_uri_prefixes!(resource_uri_prefixes)
       end
 
       # serverengine interface
