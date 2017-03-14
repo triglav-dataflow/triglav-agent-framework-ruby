@@ -152,7 +152,10 @@ module Triglav::Agent
         params = fp.load
         if dig = (parents.empty? ? params : params.dig(*parents))
           removes = dig.keys - keys
-          removes.each {|k| dig.delete(k) }
+          unless removes.empty?
+            $logger.info { "remove from status where #{{parent_keys: parents, leaf_keys: removes}}" }
+            removes.each {|k| dig.delete(k) }
+          end
         end
         fp.dump(params)
       end
