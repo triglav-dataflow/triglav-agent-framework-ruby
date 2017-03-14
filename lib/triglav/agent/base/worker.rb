@@ -13,13 +13,14 @@ module Triglav::Agent
       # serverengine interface
       def initialize
         @timer = Timer.new
+        reload_status
       end
 
       # serverengine interface
       def reload
         $logger.info { "Worker#reload worker_id:#{worker_id}" }
         $setting.reload
-        Triglav::Agent::Status.select_resource_uri_prefixes!(resource_uri_prefixes)
+        reload_status
       end
 
       # serverengine interface
@@ -72,6 +73,10 @@ module Triglav::Agent
       end
 
       private
+
+      def reload_status
+        Triglav::Agent::Status.select_resource_uri_prefixes!(resource_uri_prefixes)
+      end
 
       def processor_class
         Configuration.processor_class
