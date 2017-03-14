@@ -31,4 +31,13 @@ class TestStorageFile < Test::Unit::TestCase
     assert { Triglav::Agent::StorageFile.getsetnx(file, ['a','b'], 'new') == 'bar' }
     assert { Triglav::Agent::StorageFile.getsetnx(file, ['a','new'], 'new') == 'new' }
   end
+
+  def test_select!
+    Triglav::Agent::StorageFile.set(file, ['a','a'], 'val')
+    Triglav::Agent::StorageFile.set(file, ['a','b'], 'val')
+    Triglav::Agent::StorageFile.set(file, ['a','c'], 'val')
+    Triglav::Agent::StorageFile.select!(file, ['a'], ['b', 'c'])
+    params = Triglav::Agent::StorageFile.load(file)
+    assert { params = {'a' => {'b' => 'val', 'c' => 'val'} } }
+  end
 end

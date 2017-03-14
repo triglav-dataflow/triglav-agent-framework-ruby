@@ -1,5 +1,6 @@
 require 'parallel'
 require 'connection_pool'
+require 'triglav/agent/status'
 
 module Triglav::Agent
   module Base
@@ -32,7 +33,7 @@ module Triglav::Agent
           events = nil
           begin
             @connection_pool.with do |connection|
-              monitor = monitor_class.new(connection, resource)
+              monitor = monitor_class.new(connection, resource_uri_prefix, resource)
               monitor.process do |_events|
                 events = _events
                 $logger.info { "send_messages:#{events.map(&:to_hash).to_json}" }
@@ -69,6 +70,8 @@ module Triglav::Agent
         @api_client_pool = ConnectionPool.new(connection_pool_opts) {
           ApiClient.new # renew connection
         }
+        resource_uris = resources.map {|resource| resource.uri.to_sym }
+        Status.select_resource_uris!(resource_uri_prefix, resource_uris)
         @mutex = Mutex.new
       end
 

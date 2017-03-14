@@ -1,5 +1,6 @@
 require 'triglav/agent/hash_util'
 require 'yaml'
+require 'set'
 
 module Triglav::Agent
   # Thread and inter-process safe YAML file storage
@@ -139,6 +140,25 @@ module Triglav::Agent
     # @param [Hash] hash
     def dump(hash)
       File.write(@fp.path, YAML.dump(hash))
+    end
+
+    # Keep specified keys, and remove others
+    #
+    # @param [String] path
+    # @param [Array] parent keys of hash
+    # @param [Array] keys
+    def self.select!(path, parents = [], keys)
+      open(path) do |fp|
+        params = fp.load
+        if dig = (parents.empty? ? params : params.dig(*parents))
+          removes = dig.keys - keys
+          unless removes.empty?
+            $logger.info { "Remove from status: #{{parent_keys: parents, keys: removes}}" }
+            removes.each {|k| dig.delete(k) }
+          end
+        end
+        fp.dump(params)
+      end
     end
   end
 end
