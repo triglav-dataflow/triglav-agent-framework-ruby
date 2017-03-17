@@ -26,6 +26,19 @@ module Triglav::Agent
       StorageFile.set(path, [*@parents, *keys], val)
     end
 
+    # Merge Hash value with existing Hash value.
+    #
+    # merge!(val)
+    # merge!(key, val)
+    # merge!(key1, key2, val)
+    # merge!([key], val)
+    # merge!([key1, key2], val)
+    def merge!(*args)
+      val = args.pop
+      keys = args.flatten
+      StorageFile.merge!(path, [*@parents, *keys], val)
+    end
+
     # setnx(val)
     # setnx(key, val)
     # setnx(key1, key2, val)

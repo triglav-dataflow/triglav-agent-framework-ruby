@@ -20,6 +20,15 @@ class TestStorageFile < Test::Unit::TestCase
     assert { Triglav::Agent::StorageFile.get(file, ['a','b']) == 'bar' }
   end
 
+  def test_merge!
+    Triglav::Agent::StorageFile.set(file, 'foo', {foo: 'foo'})
+    Triglav::Agent::StorageFile.merge!(file, 'foo', {bar: 'bar'})
+    assert { Triglav::Agent::StorageFile.get(file, 'foo') == {foo: 'foo', bar: 'bar'} }
+
+    Triglav::Agent::StorageFile.merge!(file, 'not_exists', {foo: 'bar'})
+    assert { Triglav::Agent::StorageFile.get(file, 'not_exists') == {foo: 'bar'} }
+  end
+
   def test_setnx
     Triglav::Agent::StorageFile.set(file, ['a','b'], 'bar')
     assert { Triglav::Agent::StorageFile.setnx(file, ['a','b'], 'bar') == false }

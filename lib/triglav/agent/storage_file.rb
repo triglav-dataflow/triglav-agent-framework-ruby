@@ -68,6 +68,24 @@ module Triglav::Agent
       end
     end
 
+    # Merge Hash value with existing Hash value.
+    #
+    # @param [String] path
+    # @param [Object] key
+    # @param [Hash] val
+    # @return [Object] holded value
+    def self.merge!(path, key, val)
+      keys = Array(key)
+      open(path) do |fp|
+        params = fp.load
+        _val = params.dig(*keys) || {}
+        _val.merge!(val) 
+        HashUtil.setdig(params, keys, _val)
+        fp.dump(params)
+        return true
+      end
+    end
+
     # Set key to hold val if key does not exist
     #
     #     StorageFile.setnx($setting.status_file, 'foo', 'bar') # like h['foo'] = 'bar'
