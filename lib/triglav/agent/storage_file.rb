@@ -40,7 +40,7 @@ module Triglav::Agent
     def self.open(path, &block)
       fp = File.open(path, (File::RDONLY | File::CREAT))
       until fp.flock(File::LOCK_EX | File::LOCK_NB)
-        $logger.info { "Somebody else is locking the storage file #{path.inspect}" }
+        # $logger.info { "Somebody else is locking the storage file #{path.inspect}" }
         sleep 0.5
       end
       begin
