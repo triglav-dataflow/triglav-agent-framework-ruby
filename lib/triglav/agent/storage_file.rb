@@ -19,6 +19,24 @@ module Triglav::Agent
 
     # Load storage file
     #
+    # @return [Hash]
+    def load
+      if !(content = @fp.read).empty?
+        YAML.load(content) # all keys must be symbols
+      else
+        {}
+      end
+    end
+
+    # Dump to storage file
+    #
+    # @param [Hash] hash
+    def dump(hash)
+      File.write(@fp.path, YAML.dump(hash))
+    end
+
+    # Load storage file
+    #
     #     StorageFile.load($setting.status_file)
     #
     # @param [String] path
@@ -38,11 +56,28 @@ module Triglav::Agent
     # @param [String] path
     # @param [Block] block
     def self.open(path, &block)
+      # Use RDONLY instead of WRONLY not to TRUNCate contents
       fp = File.open(path, (File::RDONLY | File::CREAT))
-      until fp.flock(File::LOCK_EX | File::LOCK_NB)
-        # $logger.info { "Somebody else is locking the storage file #{path.inspect}" }
-        sleep 0.5
+      fp.flock(File::LOCK_EX)
+      begin
+        return yield(StorageFile.new(fp))
+      ensure
+        fp.flock(File::LOCK_UN)
+        fp.close rescue nil
       end
+    end
+
+    # Open storage file to read
+    #
+    #     StorageFile.readopen($setting.status_file) do |fp|
+    #       status = fp.load
+    #     end
+    #
+    # @param [String] path
+    # @param [Block] block
+    def self.readopen(path, &block)
+      fp = File.open(path, (File::RDONLY | File::CREAT))
+      fp.flock(File::LOCK_SH)
       begin
         return yield(StorageFile.new(fp))
       ensure
@@ -139,25 +174,7 @@ module Triglav::Agent
     # @param [Object] key
     def self.get(path, key)
       keys = Array(key)
-      open(path) {|fp| fp.load.dig(*keys) }
-    end
-
-    # Load storage file
-    #
-    # @return [Hash]
-    def load
-      if !(content = @fp.read).empty?
-        YAML.load(content) # all keys must be symbols
-      else
-        {}
-      end
-    end
-
-    # Dump to storage file
-    #
-    # @param [Hash] hash
-    def dump(hash)
-      File.write(@fp.path, YAML.dump(hash))
+      readopen(path) {|fp| fp.load.dig(*keys) }
     end
 
     # Keep specified keys, and remove others
