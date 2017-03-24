@@ -347,6 +347,30 @@ href="key">getsetnx(</a>, val) getsetnx([key1, key2], val).</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#merge%21-instance_method" title="#merge! (instance method)">#<strong>merge!</strong>(*args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Merge Hash value with existing Hash value.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#set-instance_method" title="#set (instance method)">#<strong>set</strong>(*args)  &#x21d2; Object </a>
     
 
@@ -603,12 +627,12 @@ val) setnx([key1, key2], val).</p>
       <pre class="lines">
 
 
-60
-61
-62</pre>
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_select_resource_uri_prefixes!'>select_resource_uri_prefixes!</span><span class='lparen'>(</span><span class='id identifier rubyid_resource_uri_prefixes'>resource_uri_prefixes</span><span class='rparen'>)</span>
   <span class='const'>Triglav</span><span class='op'>::</span><span class='const'>Agent</span><span class='op'>::</span><span class='const'>StorageFile</span><span class='period'>.</span><span class='id identifier rubyid_select!'>select!</span><span class='lparen'>(</span><span class='gvar'>$setting</span><span class='period'>.</span><span class='id identifier rubyid_status_file'>status_file</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='const'>VERSION</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_resource_uri_prefixes'>resource_uri_prefixes</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -633,12 +657,12 @@ val) setnx([key1, key2], val).</p>
       <pre class="lines">
 
 
-64
-65
-66</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_select_resource_uris!'>select_resource_uris!</span><span class='lparen'>(</span><span class='id identifier rubyid_resource_uri_prefix'>resource_uri_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_resource_uris'>resource_uris</span><span class='rparen'>)</span>
   <span class='const'>Triglav</span><span class='op'>::</span><span class='const'>Agent</span><span class='op'>::</span><span class='const'>StorageFile</span><span class='period'>.</span><span class='id identifier rubyid_select!'>select!</span><span class='lparen'>(</span><span class='gvar'>$setting</span><span class='period'>.</span><span class='id identifier rubyid_status_file'>status_file</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='const'>VERSION</span><span class='comma'>,</span> <span class='id identifier rubyid_resource_uri_prefix'>resource_uri_prefix</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_resource_uris'>resource_uris</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -680,13 +704,13 @@ val) setnx([key1, key2], val).</p>
       <pre class="lines">
 
 
-55
-56
-57
-58</pre>
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get'>get</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
@@ -724,19 +748,67 @@ href="key">getsetnx(</a>, val) getsetnx([key1, key2], val)</p>
       <pre class="lines">
 
 
-45
-46
-47
-48
-49</pre>
+58
+59
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_getsetnx'>getsetnx</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
   <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
   <span class='const'>StorageFile</span><span class='period'>.</span><span class='id identifier rubyid_getsetnx'>getsetnx</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='op'>*</span><span class='ivar'>@parents</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_keys'>keys</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="merge!-instance_method">
+  
+    #<strong>merge!</strong>(*args)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Merge Hash value with existing Hash value.</p>
+
+<p>merge!(val) merge!(key, val) merge!(key1, key2, val) <a
+href="key">merge!(</a>, val) merge!([key1, key2], val)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
+  <span class='id identifier rubyid_keys'>keys</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span>
+  <span class='const'>StorageFile</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='op'>*</span><span class='ivar'>@parents</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_keys'>keys</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -816,14 +888,14 @@ val) setnx([key1, key2], val)</p>
       <pre class="lines">
 
 
-34
-35
-36
-37
-38</pre>
+47
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/triglav/agent/status.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_setnx'>setnx</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_pop'>pop</span>
@@ -840,7 +912,7 @@ val) setnx([key1, key2], val)</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Mar 14 19:09:27 2017 by
+  Generated on Fri Mar 24 11:36:54 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.5 (ruby-2.3.2).
 </div>
