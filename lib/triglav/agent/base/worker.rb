@@ -18,14 +18,14 @@ module Triglav::Agent
 
       # serverengine interface
       def reload
-        $logger.info { "Worker#reload worker_id:#{worker_id}" }
+        $logger.info { "Worker#reload" }
         $setting.reload
         reload_status
       end
 
       # serverengine interface
       def run
-        $logger.info { "Worker#run worker_id:#{worker_id}" }
+        $logger.info { "Worker#run" }
         start
         until @stop
           @timer.wait(monitor_interval) { process }
@@ -38,7 +38,7 @@ module Triglav::Agent
 
       def process
         started = Time.now
-        $logger.info { "Start Worker#process worker_id:#{worker_id}" }
+        $logger.info { "Start Worker#process" }
 
         total_count = 0
         total_success_count = 0
@@ -51,8 +51,7 @@ module Triglav::Agent
 
         elapsed = Time.now - started
         $logger.info {
-          "Finish Worker#process worker_id:#{worker_id} " \
-          "success_count/total_count:#{total_success_count}/#{total_count} elapsed:#{elapsed.to_f}sec"
+          "Finish Worker#process success_count/total_count:#{total_success_count}/#{total_count} elapsed:#{elapsed.to_f}sec"
         }
       end
 
@@ -63,7 +62,7 @@ module Triglav::Agent
 
       # serverengine interface
       def stop
-        $logger.info { "Worker#stop worker_id:#{worker_id}" }
+        $logger.info { "Worker#stop" }
         @stop = true
         @timer.stop
       end
