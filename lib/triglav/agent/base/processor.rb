@@ -18,6 +18,8 @@ module Triglav::Agent
       def initialize(worker, resource_uri_prefix)
         @worker = worker
         @resource_uri_prefix = resource_uri_prefix
+        @status = Triglav::Agent::Status.new(resource_uri_prefix)
+        @resource_uri_prefix_statuses = @status.get
       end
 
       def self.max_consecuitive_error_count
@@ -31,19 +33,26 @@ module Triglav::Agent
         Parallel.each(resources, parallel_opts) do |resource|
           raise Parallel::Break if stopped?
           events = nil
+          new_resource_statuses = nil
           begin
             # If all the objects in the connection pool are in use, with will block until one becomes available.
             # Size of connections in the pool typically equals to number of parallels.
             @connection_pool.with do |connection|
+              resource_statuses = @resource_uri_prefix_statuses[resource.uri.to_sym]
               # Monitor instance is for each `resource`
-              monitor = monitor_class.new(connection, resource_uri_prefix, resource)
-              monitor.process do |_events|
-                events = _events
-                $logger.info { "send_messages:#{events.map(&:to_hash).to_json}" }
-                @api_client_pool.with {|api_client| api_client.send_messages(events) }
+              monitor = monitor_class.new(connection, resource_uri_prefix, resource, resource_statuses)
+              monitor.process do |_events, _new_resource_statuses|
+                events, new_resource_statuses = _events, _new_resource_statuses
+                if events and !events.empty?
+                  $logger.info { "send_messages:#{events.map(&:to_hash).to_json}" }
+                  @api_client_pool.with {|api_client| api_client.send_messages(events) }
+                end
               end
             end
             @mutex.synchronize do
+              if new_resource_statuses
+                @resource_uri_prefix_statuses[resource.uri.to_sym] = new_resource_statuses
+              end
               success_count += 1
               consecutive_error_count = 0
             end
@@ -55,6 +64,9 @@ module Triglav::Agent
             end
           end
         end
+        $logger.info { "Start to store status: #{@resource_uri_prefix}" }
+        @status.set(@resource_uri_prefix_statuses) # Status#merge! is safer, but slower
+        $logger.info { "Finish to store status: #{@resource_uri_prefix}" }
         success_count
       ensure
         after_process

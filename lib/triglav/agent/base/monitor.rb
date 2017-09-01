@@ -22,10 +22,12 @@ module Triglav::Agent
         raise NotImplementedError
       end
 
-      # @yield [events] Gives an array of events
+      # @yield [events, new_resource_statuses]
+      # @yieldparam [Array] events the events
+      # @yieldparam [Hash] new_resource_statuses new statuses for a resource
       def process(&block)
         raise NotImplementedError
-        # yield(events) if block_given?
+        # yield(events, new_resource_statuses) if block_given?
       end
     end
   end
