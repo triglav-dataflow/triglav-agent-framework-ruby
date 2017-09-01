@@ -61,6 +61,9 @@ module Triglav::Agent
       end
 
       # serverengine interface
+      #
+      # When serverengine received a signal to stop, ServerEngine::Server#stop calls worker.stop.
+      # MEMO: We have no way to call Server#stop internally, call Process.kill(:INT, $$) instead.
       def stop
         $logger.info { "Worker#stop" }
         @stop = true
