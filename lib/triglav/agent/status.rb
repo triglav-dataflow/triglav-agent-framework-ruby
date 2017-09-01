@@ -8,11 +8,11 @@ module Triglav::Agent
 
     VERSION = :v1
 
-    def initialize(resource_uri_prefix, resource_uri)
+    def initialize(resource_uri_prefix = nil, resource_uri = nil)
       @path = $setting.status_file
-      @resource_uri_prefix = resource_uri_prefix.to_sym
-      @resource_uri = resource_uri.to_sym
-      @parents = [VERSION, @resource_uri_prefix, @resource_uri]
+      @resource_uri_prefix = resource_uri_prefix.to_sym if resource_uri_prefix
+      @resource_uri = resource_uri.to_sym if resource_uri
+      @parents = [VERSION, @resource_uri_prefix, @resource_uri].compact
     end
 
     # set(val)
