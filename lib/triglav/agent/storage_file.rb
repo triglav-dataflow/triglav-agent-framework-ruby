@@ -117,7 +117,7 @@ module Triglav::Agent
         _val.merge!(val) 
         HashUtil.setdig(params, keys, _val)
         fp.dump(params)
-        return true
+        return _val
       end
     end
 
