@@ -6,7 +6,7 @@ module Triglav::Agent
   module Base
     # Triglav agent processor class.
     #
-    # An instance is created for a `resource_uri_prefix`.
+    # A Processor instance is created for each `resource_uri_prefix`.
     #
     # You usually do not need to customize this class, but if you want to
     # implement your original, configure
@@ -32,7 +32,10 @@ module Triglav::Agent
           raise Parallel::Break if stopped?
           events = nil
           begin
+            # If all the objects in the connection pool are in use, with will block until one becomes available.
+            # Size of connections in the pool typically equals to number of parallels.
             @connection_pool.with do |connection|
+              # Monitor instance is for each `resource`
               monitor = monitor_class.new(connection, resource_uri_prefix, resource)
               monitor.process do |_events|
                 events = _events
